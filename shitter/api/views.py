@@ -12,14 +12,13 @@ from ..serializers import ShitSerializer
 
 class ListCreateShitView(ListCreateAPIView):
     serializer_class = ShitSerializer
-    permission_classes = (IsAuthenticated, )
     filter_backends = (OrderingFilter, )
     ordering_fields = ('-publish_date', )
 
     def get_queryset(self):
         user = self.request.user
 
-        if user.is_superuser or user.is_staff:
+        if user.is_superuser or user.is_staff or user.is_anonymous:
             return Shit.objects.all()
 
         following_users = self.request.user.following.all().values_list('to_user', flat=True)
@@ -31,16 +30,8 @@ class ListCreateShitView(ListCreateAPIView):
 
 class RetrieveDestroyShitView(RetrieveDestroyAPIView):
     serializer_class = ShitSerializer
-    permission_classes = (AllowAny, )
+    permission_classes = (IsAuthenticated, IsShitOwner, )
     lookup_field = 'uuid'
-
-    def get_permissions(self):
-        if self.request.method == 'GET':
-            return [AllowAny, ]
-        elif self.request.method == 'DELETE':
-            return [IsShitOwner, ]
-
-        return self.permission_classes
 
     def get_queryset(self):
         if self.request.method == 'GET':

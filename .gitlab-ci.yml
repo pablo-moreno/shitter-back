@@ -17,16 +17,6 @@ variables:
     after_script:
      - cat /tmp/success && sh /slack_message "$SUCCESS_MESSAGE" $SLACK_WEBHOOK_URL || sh /slack_message "$ERROR_MESSAGE" $SLACK_WEBHOOK_URL
 
-.poetry_install:
-    before_script:
-     - curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
-     - source $HOME/.poetry/env
-
-
-code_quality:
-  artifacts:
-    paths: [gl-code-quality-report.json]
-
 run_tests:
   image: $CI_PROJECT_BASE_IMAGE
   stage: test
@@ -40,7 +30,7 @@ run_tests:
     DATABASE_PORT: 5432
 
   script:
-    - poetry install
+    - pip install -r requirements.txt
     - coverage run manage.py test
     - coverage report
       
