@@ -10,6 +10,7 @@ urlpatterns = [
     path('', index, name='index'),
     path('admin/', admin.site.urls),
     path('api/auth/', include('authentication.urls', namespace='authentication')),
+    path('api/shitter/', include('shitter.urls', namespace='shitter')),
     path('healthy', health_check, name='healthy'),
 ]
 
