@@ -1,11 +1,14 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
+
+from authentication.serializers import UserProfileSerializer
 from utils.fields import UUIDRelatedField
 
 from .models import Shit, UserFollow
 
 
 class UserSerializer(serializers.ModelSerializer):
+    profile = UserProfileSerializer()
     total_shits = serializers.SerializerMethodField()
     followers_count = serializers.SerializerMethodField()
     following_count = serializers.SerializerMethodField()
@@ -21,7 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'total_shits', 'followers_count', 'following_count')
+        fields = ('username', 'profile', 'total_shits', 'followers_count', 'following_count')
 
 
 class BaseShitSerializer(serializers.ModelSerializer):

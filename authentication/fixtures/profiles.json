@@ -3,459 +3,99 @@
     "model": "authentication.userprofile",
     "pk": 1,
     "fields": {
-        "user": 1,
-        "profile_picture": "profile-pictures/sadwolf494.jpg",
-        "cif": null
+        "user": 2,
+        "profile_picture": "profile-pictures/crazygorilla181.jpg",
+        "private": false
     }
 },
 {
     "model": "authentication.userprofile",
     "pk": 2,
     "fields": {
-        "user": 2,
-        "profile_picture": "profile-pictures/bluecat204.jpg",
-        "cif": null
+        "user": 3,
+        "profile_picture": "profile-pictures/orangelion169.jpg",
+        "private": false
     }
 },
 {
     "model": "authentication.userprofile",
     "pk": 3,
     "fields": {
-        "user": 3,
-        "profile_picture": "profile-pictures/sadgorilla430.jpg",
-        "cif": null
+        "user": 4,
+        "profile_picture": "profile-pictures/orangepeacock541.jpg",
+        "private": false
     }
 },
 {
     "model": "authentication.userprofile",
     "pk": 4,
     "fields": {
-        "user": 4,
-        "profile_picture": "profile-pictures/ticklishwolf759.jpg",
-        "cif": null
+        "user": 5,
+        "profile_picture": "profile-pictures/bigpanda913.jpg",
+        "private": false
     }
 },
 {
     "model": "authentication.userprofile",
     "pk": 5,
     "fields": {
-        "user": 5,
-        "profile_picture": "profile-pictures/organickoala388.jpg",
-        "cif": null
+        "user": 6,
+        "profile_picture": "profile-pictures/bigleopard824.jpg",
+        "private": false
     }
 },
 {
     "model": "authentication.userprofile",
     "pk": 6,
     "fields": {
-        "user": 6,
-        "profile_picture": "profile-pictures/goldenduck465.jpg",
-        "cif": null
+        "user": 7,
+        "profile_picture": "profile-pictures/heavygoose226.jpg",
+        "private": false
     }
 },
 {
     "model": "authentication.userprofile",
     "pk": 7,
     "fields": {
-        "user": 7,
-        "profile_picture": "profile-pictures/purpletiger769.jpg",
-        "cif": null
+        "user": 8,
+        "profile_picture": "profile-pictures/heavykoala580.jpg",
+        "private": false
     }
 },
 {
     "model": "authentication.userprofile",
     "pk": 8,
     "fields": {
-        "user": 8,
-        "profile_picture": "profile-pictures/blueostrich288.jpg",
-        "cif": null
+        "user": 9,
+        "profile_picture": "profile-pictures/sadlion956.jpg",
+        "private": false
     }
 },
 {
     "model": "authentication.userprofile",
     "pk": 9,
     "fields": {
-        "user": 9,
-        "profile_picture": "profile-pictures/ticklishkoala634.jpg",
-        "cif": null
+        "user": 10,
+        "profile_picture": "profile-pictures/yellowlion644.jpg",
+        "private": false
     }
 },
 {
     "model": "authentication.userprofile",
     "pk": 10,
     "fields": {
-        "user": 10,
-        "profile_picture": "profile-pictures/beautifulfrog154.jpg",
-        "cif": null
+        "user": 11,
+        "profile_picture": "profile-pictures/ticklishmeercat898.jpg",
+        "private": false
     }
 },
 {
     "model": "authentication.userprofile",
     "pk": 11,
     "fields": {
-        "user": 11,
-        "profile_picture": "profile-pictures/angrybird292.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 12,
-    "fields": {
-        "user": 12,
-        "profile_picture": "profile-pictures/happyleopard877.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 13,
-    "fields": {
-        "user": 13,
-        "profile_picture": "profile-pictures/angrygoose991.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 14,
-    "fields": {
-        "user": 14,
-        "profile_picture": "profile-pictures/beautifulfish621.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 15,
-    "fields": {
-        "user": 15,
-        "profile_picture": "profile-pictures/goldenkoala358.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 16,
-    "fields": {
-        "user": 16,
-        "profile_picture": "profile-pictures/greenduck146.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 17,
-    "fields": {
-        "user": 17,
-        "profile_picture": "profile-pictures/crazyzebra960.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 18,
-    "fields": {
-        "user": 18,
-        "profile_picture": "profile-pictures/bigelephant829.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 19,
-    "fields": {
-        "user": 19,
-        "profile_picture": "profile-pictures/smallduck392.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 20,
-    "fields": {
-        "user": 20,
-        "profile_picture": "profile-pictures/greenelephant571.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 21,
-    "fields": {
-        "user": 21,
-        "profile_picture": "profile-pictures/sadmeercat145.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 22,
-    "fields": {
-        "user": 22,
-        "profile_picture": "profile-pictures/blackcat712.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 23,
-    "fields": {
-        "user": 23,
-        "profile_picture": "profile-pictures/lazymouse264.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 24,
-    "fields": {
-        "user": 24,
-        "profile_picture": "profile-pictures/tinypanda189.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 25,
-    "fields": {
-        "user": 25,
-        "profile_picture": "profile-pictures/sadsnake753.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 26,
-    "fields": {
-        "user": 26,
-        "profile_picture": "profile-pictures/yellowbutterfly258.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 27,
-    "fields": {
-        "user": 27,
-        "profile_picture": "profile-pictures/brownswan384.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 28,
-    "fields": {
-        "user": 28,
-        "profile_picture": "profile-pictures/beautifulrabbit155.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 29,
-    "fields": {
-        "user": 29,
-        "profile_picture": "profile-pictures/purplesnake475.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 30,
-    "fields": {
-        "user": 30,
-        "profile_picture": "profile-pictures/heavypeacock425.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 31,
-    "fields": {
-        "user": 31,
-        "profile_picture": "profile-pictures/bigbear394.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 32,
-    "fields": {
-        "user": 32,
-        "profile_picture": "profile-pictures/sadmouse335.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 33,
-    "fields": {
-        "user": 33,
-        "profile_picture": "profile-pictures/purplebutterfly242.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 34,
-    "fields": {
-        "user": 34,
-        "profile_picture": "profile-pictures/whitedog403.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 35,
-    "fields": {
-        "user": 35,
-        "profile_picture": "profile-pictures/bigzebra539.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 36,
-    "fields": {
-        "user": 36,
-        "profile_picture": "profile-pictures/ticklishduck281.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 37,
-    "fields": {
-        "user": 37,
-        "profile_picture": "profile-pictures/brownpanda175.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 38,
-    "fields": {
-        "user": 38,
-        "profile_picture": "profile-pictures/silverfish846.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 39,
-    "fields": {
-        "user": 39,
-        "profile_picture": "profile-pictures/goldengoose564.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 40,
-    "fields": {
-        "user": 40,
-        "profile_picture": "profile-pictures/redfish469.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 41,
-    "fields": {
-        "user": 41,
-        "profile_picture": "profile-pictures/organicrabbit741.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 42,
-    "fields": {
-        "user": 42,
-        "profile_picture": "profile-pictures/blackladybug603.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 43,
-    "fields": {
-        "user": 43,
-        "profile_picture": "profile-pictures/smalllion226.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 44,
-    "fields": {
-        "user": 44,
-        "profile_picture": "profile-pictures/redtiger397.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 45,
-    "fields": {
-        "user": 45,
-        "profile_picture": "profile-pictures/heavyleopard872.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 46,
-    "fields": {
-        "user": 46,
-        "profile_picture": "profile-pictures/beautifulwolf151.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 47,
-    "fields": {
-        "user": 47,
-        "profile_picture": "profile-pictures/happyladybug935.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 48,
-    "fields": {
-        "user": 48,
-        "profile_picture": "profile-pictures/goldendog336.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 49,
-    "fields": {
-        "user": 49,
-        "profile_picture": "profile-pictures/lazydog701.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 50,
-    "fields": {
-        "user": 50,
-        "profile_picture": "profile-pictures/happyelephant105.jpg",
-        "cif": null
-    }
-},
-{
-    "model": "authentication.userprofile",
-    "pk": 51,
-    "fields": {
-        "user": 51,
-        "profile_picture": "profile-pictures/blackleopard492.jpg",
-        "cif": null
+        "user": 1,
+        "profile_picture": "",
+        "private": false
     }
 }
 ]

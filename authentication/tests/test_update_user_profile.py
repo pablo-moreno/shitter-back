@@ -34,12 +34,12 @@ class TestUpdateUserProfile(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         profile = response.json()
-        self.assertEqual(profile.get('cif', ''), None)
+        self.assertEqual(profile.get('private', ''), False)
         self.assertEqual(profile.get('profile_picture', ''), None)
 
     def test_update_user_profile_ok(self):
         data = {
-            'cif': '123456789A',
+            'private': True,
         }
 
         self.client.force_login(self.user)
@@ -50,7 +50,7 @@ class TestUpdateUserProfile(APITestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         profile = UserProfile.objects.get(user=self.user)
-        self.assertEqual(profile.cif, data.get('cif'))
+        self.assertEqual(profile.cif, data.get('private'))
 
     def test_change_display_picture(self):
         image = Image.new('RGB', (100, 100))

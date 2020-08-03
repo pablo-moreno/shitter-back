@@ -48,7 +48,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = (
             'profile_picture',
-            'cif',
+            'private',
         )
 
 

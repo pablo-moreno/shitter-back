@@ -1,11 +1,11 @@
 from rest_framework.filters import OrderingFilter
-from rest_framework.generics import ListCreateAPIView, RetrieveDestroyAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, ListCreateAPIView, RetrieveDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from django_filters import rest_framework as filters
 
 from ..models import *
 from ..permissions import IsShitOwner
-from ..serializers import ShitSerializer, CreateShitSerializer
+from ..serializers import ShitSerializer, CreateShitSerializer, UserSerializer
 from .filters import UserShitFilter
 
 
@@ -43,3 +43,14 @@ class RetrieveDestroyShitView(RetrieveDestroyAPIView):
             return Shit.objects.all()
         elif self.request.method == 'DELETE':
             return Shit.objects.filter(user=self.request.user)
+
+
+class UserListView(ListAPIView):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+
+
+class UserDetailView(RetrieveAPIView):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    lookup_field = 'username'
