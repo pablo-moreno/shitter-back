@@ -1,12 +1,17 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
+from utils.fields import UUIDRelatedField
 
-from .models import Shit, ReShit, UserFollow
+from .models import Shit, UserFollow
 
 
 class UserSerializer(serializers.ModelSerializer):
+    total_shits = serializers.SerializerMethodField()
     followers_count = serializers.SerializerMethodField()
     following_count = serializers.SerializerMethodField()
+
+    def get_total_shits(self, obj):
+        return Shit.objects.filter(user=obj).count()
 
     def get_followers_count(self, obj):
         return obj.followers.count()
@@ -16,33 +21,60 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'followers_count', 'following_count')
+        fields = ('username', 'total_shits', 'followers_count', 'following_count')
 
 
-class ShitSerializer(serializers.ModelSerializer):
-    publish_date = serializers.DateTimeField(required=False)
+class BaseShitSerializer(serializers.ModelSerializer):
+    uuid = serializers.UUIDField(read_only=True)
+    publish_date = serializers.DateTimeField(read_only=True)
     user = UserSerializer(read_only=True)
-    reshits = serializers.SerializerMethodField()
+    reshits = serializers.SerializerMethodField(read_only=True)
+    favourites = serializers.SerializerMethodField(read_only=True)
+    is_reshit = serializers.SerializerMethodField(read_only=True)
+
+    def get_reshit(self, obj):
+        if obj.reshit is None:
+            return None
+
+        return ShitSerializer(obj.reshit).data
 
     def get_reshits(self, obj):
-        return ReShit.objects.filter(shit=obj).count()
+        return Shit.objects.filter(reshit=obj).count()
+
+    def get_favourites(self, obj):
+        return obj.favourites.count()
+
+    def get_is_reshit(self, obj):
+        return obj.reshit is not None
 
     class Meta:
         model = Shit
-        fields = ('uuid', 'text', 'user', 'publish_date', 'reshits')
+        fields = (
+            'uuid', 'text', 'user', 'publish_date',
+            'reshits', 'favourites', 'is_reshit',
+        )
 
 
-class CreateReshitSerializer(serializers.Serializer):
-    shit = serializers.PrimaryKeyRelatedField(queryset=Shit.objects.all())
+class ReShitSerializer(BaseShitSerializer):
+    class Meta:
+        model = Shit
+        fields = (
+            'uuid', 'text', 'publish_date', 'user',
+        )
 
 
-class ReShitSerializer(serializers.ModelSerializer):
-    shit = ShitSerializer()
-    user = UserSerializer()
+class ShitSerializer(BaseShitSerializer):
+    reshit = ReShitSerializer(required=False)
 
     class Meta:
-        model = ReShit
-        fields = ('shit', 'user', 'date')
+        model = Shit
+        fields = BaseShitSerializer.Meta.fields + (
+            'reshit',
+        )
+
+
+class CreateShitSerializer(ShitSerializer):
+    reshit = UUIDRelatedField(required=False, queryset=Shit.objects.all())
 
 
 class UserFollowSerializer(serializers.ModelSerializer):

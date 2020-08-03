@@ -16,6 +16,7 @@ class Command(BaseCommand):
                 random_user_index = randrange(0, total_users)
                 random_user = User.objects.all()[random_user_index]
                 try:
-                    UserFollow.objects.create(from_user=user, to_user=random_user)
+                    if random_user != user:
+                       UserFollow.objects.create(from_user=user, to_user=random_user)
                 except Exception:
                     pass
