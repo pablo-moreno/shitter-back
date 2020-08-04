@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.urls import reverse
 from rest_framework import serializers
 
 from authentication.serializers import UserProfileSerializer
@@ -24,7 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'profile', 'total_shits', 'followers_count', 'following_count')
+        fields = ('id', 'username', 'first_name', 'profile', 'total_shits', 'followers_count', 'following_count')
 
 
 class BaseShitSerializer(serializers.ModelSerializer):
@@ -34,6 +35,10 @@ class BaseShitSerializer(serializers.ModelSerializer):
     reshits = serializers.SerializerMethodField(read_only=True)
     favourites = serializers.SerializerMethodField(read_only=True)
     is_reshit = serializers.SerializerMethodField(read_only=True)
+    detail_url = serializers.SerializerMethodField(read_only=True)
+
+    def get_detail_url(self, obj):
+        return reverse('shitter:api:retrieve_destroy_shit', kwargs={'uuid': str(obj.uuid)})
 
     def get_reshit(self, obj):
         if obj.reshit is None:
@@ -55,6 +60,7 @@ class BaseShitSerializer(serializers.ModelSerializer):
         fields = (
             'uuid', 'text', 'user', 'publish_date',
             'reshits', 'favourites', 'is_reshit',
+            'detail_url',
         )
 
 
@@ -83,4 +89,4 @@ class CreateShitSerializer(ShitSerializer):
 class UserFollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserFollow
-        fields = ('from_user', 'to_user')
+        fields = ('id', 'from_user', 'to_user')

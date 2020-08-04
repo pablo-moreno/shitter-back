@@ -50,7 +50,7 @@ class TestUpdateUserProfile(APITestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         profile = UserProfile.objects.get(user=self.user)
-        self.assertEqual(profile.cif, data.get('private'))
+        self.assertEqual(profile.private, data.get('private'))
 
     def test_change_display_picture(self):
         image = Image.new('RGB', (100, 100))

@@ -30,6 +30,7 @@ class Command(BaseCommand):
 
         for user_dict in users:
             username = user_dict.get('login').get('username')
+            first_name = user_dict.get('name').get('first')
             email = user_dict.get('email')
             picture = user_dict.get('picture').get('large')
 
@@ -37,6 +38,7 @@ class Command(BaseCommand):
                 username=username,
                 email=email,
                 password=password,
+                first_name=first_name,
             )
 
             response = requests.get(picture)

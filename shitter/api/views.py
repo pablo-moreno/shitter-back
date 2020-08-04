@@ -1,12 +1,12 @@
 from rest_framework.filters import OrderingFilter
-from rest_framework.generics import ListAPIView, RetrieveAPIView, ListCreateAPIView, RetrieveDestroyAPIView
+from rest_framework.generics import (ListAPIView, RetrieveAPIView, ListCreateAPIView, RetrieveDestroyAPIView)
 from rest_framework.permissions import IsAuthenticated
 from django_filters import rest_framework as filters
 
 from ..models import *
 from ..permissions import IsShitOwner
-from ..serializers import ShitSerializer, CreateShitSerializer, UserSerializer
-from .filters import UserShitFilter
+from ..serializers import ShitSerializer, CreateShitSerializer, UserSerializer, UserFollowSerializer
+from .filters import UserShitFilter, UserFollowingFilter
 
 
 class ListCreateShitView(ListCreateAPIView):
@@ -47,10 +47,27 @@ class RetrieveDestroyShitView(RetrieveDestroyAPIView):
 
 class UserListView(ListAPIView):
     serializer_class = UserSerializer
-    queryset = User.objects.all()
+    filter_backends = (filters.DjangoFilterBackend, UserFollowingFilter)
+
+    def get_queryset(self):
+        return User.objects.exclude(pk=self.request.user.pk)
 
 
 class UserDetailView(RetrieveAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     lookup_field = 'username'
+
+
+class ListCreateUserFollow(ListCreateAPIView):
+    serializer_class = UserFollowSerializer
+
+    def get_queryset(self):
+        return UserFollow.objects.filter(from_user=self.request.user)
+
+
+class RetrieveDestroyUserFollow(RetrieveDestroyAPIView):
+    serializer_class = UserFollowSerializer
+
+    def get_queryset(self):
+        return UserFollow.objects.filter(from_user=self.request.user)
