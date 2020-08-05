@@ -3,7 +3,7 @@ from django.urls import reverse
 from rest_framework import serializers
 
 from authentication.serializers import UserProfileSerializer
-from utils.fields import UUIDRelatedField
+from utils.fields import UUIDRelatedField, UsernameRelatedField
 
 from .models import Shit, UserFollow
 
@@ -13,6 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
     total_shits = serializers.SerializerMethodField()
     followers_count = serializers.SerializerMethodField()
     following_count = serializers.SerializerMethodField()
+    following = serializers.SerializerMethodField()
 
     def get_total_shits(self, obj):
         return Shit.objects.filter(user=obj).count()
@@ -23,9 +24,15 @@ class UserSerializer(serializers.ModelSerializer):
     def get_following_count(self, obj):
         return obj.following.count()
 
+    def get_following(self, obj):
+        return UserFollow.objects.filter(from_user=self.context.get('request').user, to_user=obj).exists()
+
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'profile', 'total_shits', 'followers_count', 'following_count')
+        fields = (
+            'id', 'username', 'first_name', 'profile',
+            'total_shits', 'followers_count', 'following_count', 'following'
+        )
 
 
 class BaseShitSerializer(serializers.ModelSerializer):
@@ -36,6 +43,7 @@ class BaseShitSerializer(serializers.ModelSerializer):
     favourites = serializers.SerializerMethodField(read_only=True)
     is_reshit = serializers.SerializerMethodField(read_only=True)
     detail_url = serializers.SerializerMethodField(read_only=True)
+    is_mine = serializers.SerializerMethodField(read_only=True)
 
     def get_detail_url(self, obj):
         return reverse('shitter:api:retrieve_destroy_shit', kwargs={'uuid': str(obj.uuid)})
@@ -55,12 +63,15 @@ class BaseShitSerializer(serializers.ModelSerializer):
     def get_is_reshit(self, obj):
         return obj.reshit is not None
 
+    def get_is_mine(self, obj):
+        return obj.user == self.context.get('request').user
+
     class Meta:
         model = Shit
         fields = (
             'uuid', 'text', 'user', 'publish_date',
             'reshits', 'favourites', 'is_reshit',
-            'detail_url',
+            'detail_url', 'is_mine',
         )
 
 
@@ -87,6 +98,9 @@ class CreateShitSerializer(ShitSerializer):
 
 
 class UserFollowSerializer(serializers.ModelSerializer):
+    from_user = UsernameRelatedField(queryset=User.objects.all())
+    to_user = UsernameRelatedField(queryset=User.objects.all())
+
     class Meta:
         model = UserFollow
         fields = ('id', 'from_user', 'to_user')

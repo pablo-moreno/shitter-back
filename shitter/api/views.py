@@ -1,12 +1,26 @@
+from django.shortcuts import get_object_or_404
+from rest_framework import status
 from rest_framework.filters import OrderingFilter
-from rest_framework.generics import (ListAPIView, RetrieveAPIView, ListCreateAPIView, RetrieveDestroyAPIView)
+from rest_framework.generics import (
+    ListAPIView, RetrieveAPIView, ListCreateAPIView, RetrieveDestroyAPIView,
+    CreateAPIView, DestroyAPIView
+)
 from rest_framework.permissions import IsAuthenticated
 from django_filters import rest_framework as filters
+from rest_framework.response import Response
 
 from ..models import *
 from ..permissions import IsShitOwner
 from ..serializers import ShitSerializer, CreateShitSerializer, UserSerializer, UserFollowSerializer
 from .filters import UserShitFilter, UserFollowingFilter
+
+
+class ShitPublicTimelineView(ListAPIView):
+    serializer_class = ShitSerializer
+    filter_backends = (filters.DjangoFilterBackend, OrderingFilter, UserShitFilter)
+
+    def get_queryset(self):
+        return Shit.objects.select_related('user').filter(user__profile__private=False)
 
 
 class ListCreateShitView(ListCreateAPIView):
@@ -22,10 +36,6 @@ class ListCreateShitView(ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-
-        if user.is_superuser or user.is_staff or user.is_anonymous:
-            return Shit.objects.all()
-
         following_users = self.request.user.following.all().values_list('to_user', flat=True)
         return Shit.objects.filter(user__pk__in=[user.pk, *following_users])
 
@@ -59,15 +69,20 @@ class UserDetailView(RetrieveAPIView):
     lookup_field = 'username'
 
 
-class ListCreateUserFollow(ListCreateAPIView):
+class CreateUserFollow(CreateAPIView):
     serializer_class = UserFollowSerializer
 
     def get_queryset(self):
         return UserFollow.objects.filter(from_user=self.request.user)
 
 
-class RetrieveDestroyUserFollow(RetrieveDestroyAPIView):
-    serializer_class = UserFollowSerializer
+class DestroyUserFollow(DestroyAPIView):
+    def destroy(self, request, from_user, to_user, *args, **kwargs):
+        follow = get_object_or_404(
+            UserFollow.objects.all(),
+            from_user__username=from_user,
+            to_user__username=to_user
+        )
+        self.perform_destroy(follow)
 
-    def get_queryset(self):
-        return UserFollow.objects.filter(from_user=self.request.user)
+        return Response(status=status.HTTP_204_NO_CONTENT)
