@@ -1,5 +1,9 @@
 # Shitter :poop:
 
+![pic](https://gitlab.com/pablo-moreno/shitter-back/badges/master/coverage.svg)
+![pic](https://gitlab.com/pablo-moreno/shitter-back/badges/master/pipeline.svg)
+
+
 This is a Django setup project, configured with CI/CD for testing and auto-deployment.
 
 ## Gitlab Environment Variables
