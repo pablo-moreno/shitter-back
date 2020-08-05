@@ -41,6 +41,9 @@ run_tests:
     - pip install -r requirements.txt
     - pytest --cov --junitxml=report.xml
 
+  after_script:
+    - bash <(curl -s https://codecov.io/bash)
+
   artifacts:
     reports:
       junit: report.xml
