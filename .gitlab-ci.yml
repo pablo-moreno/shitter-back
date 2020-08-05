@@ -31,9 +31,12 @@ run_tests:
 
   script:
     - pip install -r requirements.txt
-    - coverage run manage.py test
-    - coverage report
-      
+    - pytest --cov --junitxml=report.xml
+
+  artifacts:
+    reports:
+      junit: report.xml
+
   coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
 
 build_branch_image:
