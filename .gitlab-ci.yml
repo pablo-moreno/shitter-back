@@ -5,6 +5,14 @@ stages:
 include:
   - template: Code-Quality.gitlab-ci.yml
 
+code_quality:
+  artifacts:
+    reports:
+      codequality: gl-code-quality-report.json
+  after_script:
+    - cat gl-code-quality-report.json
+
+
 variables:
   POSTGRES_DB: $CI_POSTGRES_DATABASE
   POSTGRES_USER: $CI_POSTGRES_USER
