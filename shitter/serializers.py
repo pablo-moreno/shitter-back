@@ -5,7 +5,7 @@ from rest_framework import serializers
 from authentication.serializers import UserProfileSerializer
 from utils.fields import UUIDRelatedField, UsernameRelatedField
 
-from .models import Shit, UserFollow
+from .models import Shit, UserFollow, Favourite
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -44,6 +44,7 @@ class BaseShitSerializer(serializers.ModelSerializer):
     is_reshit = serializers.SerializerMethodField(read_only=True)
     detail_url = serializers.SerializerMethodField(read_only=True)
     is_mine = serializers.SerializerMethodField(read_only=True)
+    is_favourite = serializers.SerializerMethodField(read_only=True)
 
     def get_detail_url(self, obj):
         return reverse('shitter:api:retrieve_destroy_shit', kwargs={'uuid': str(obj.uuid)})
@@ -66,12 +67,15 @@ class BaseShitSerializer(serializers.ModelSerializer):
     def get_is_mine(self, obj):
         return obj.user == self.context.get('request').user
 
+    def get_is_favourite(self, obj):
+        return Favourite.objects.filter(shit=obj, user=self.context.get('request').user).exists()
+
     class Meta:
         model = Shit
         fields = (
             'uuid', 'text', 'user', 'publish_date',
             'reshits', 'favourites', 'is_reshit',
-            'detail_url', 'is_mine',
+            'detail_url', 'is_mine', 'is_favourite',
         )
 
 

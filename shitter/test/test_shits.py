@@ -77,3 +77,31 @@ class TestShits(APITestCase, AuthTestCaseMixin):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         reshit_detail = response.json()
         self.assertEqual(reshit_detail.get('is_reshit'), True)
+
+    def test_create_favourite_shit(self):
+        shit = Shit.objects.exclude(user=self.user).last()
+        response = self.client.post(reverse('shitter:api:create_destroy_favourite', kwargs={'uuid': shit.uuid}))
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        response = self.client.get(reverse('shitter:api:retrieve_destroy_shit', kwargs={'uuid': shit.uuid}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        shit_detail = response.json()
+        self.assertEqual(shit_detail.get('is_favourite'), True)
+
+    def test_create_and_delete_favourite_shit(self):
+        shit = Shit.objects.exclude(user=self.user).last()
+        response = self.client.post(reverse('shitter:api:create_destroy_favourite', kwargs={'uuid': shit.uuid}))
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        response = self.client.get(reverse('shitter:api:retrieve_destroy_shit', kwargs={'uuid': shit.uuid}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        shit_detail = response.json()
+        self.assertEqual(shit_detail.get('is_favourite'), True)
+
+        response = self.client.delete(reverse('shitter:api:create_destroy_favourite', kwargs={'uuid': shit.uuid}))
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        response = self.client.get(reverse('shitter:api:retrieve_destroy_shit', kwargs={'uuid': shit.uuid}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        shit_detail = response.json()
+        self.assertEqual(shit_detail.get('is_favourite'), False)

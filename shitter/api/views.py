@@ -77,12 +77,33 @@ class CreateUserFollow(CreateAPIView):
 
 
 class DestroyUserFollow(DestroyAPIView):
-    def destroy(self, request, from_user, to_user, *args, **kwargs):
+    def destroy(self, request, *args, **kwargs):
+        from_user, to_user = kwargs.get('from_user'), kwargs.get('to_user')
         follow = get_object_or_404(
             UserFollow.objects.all(),
             from_user__username=from_user,
             to_user__username=to_user
         )
         self.perform_destroy(follow)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CreateDestroyFavorite(CreateAPIView, DestroyAPIView):
+    def create(self, request, *args, **kwargs):
+        uuid = kwargs.get('uuid')
+        shit = get_object_or_404(Shit.objects.all(), uuid=uuid)
+        favourite, created = Favourite.objects.get_or_create(
+            defaults={
+                'shit': shit,
+                'user': request.user,
+            }
+        )
+        return Response(status=status.HTTP_201_CREATED)
+
+    def destroy(self, request, *args, **kwargs):
+        uuid = kwargs.get('uuid')
+        favourite = get_object_or_404(Favourite.objects.all(), shit__uuid=uuid, user=request.user)
+        self.perform_destroy(favourite)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
