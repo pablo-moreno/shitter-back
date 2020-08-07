@@ -25,6 +25,11 @@ class UserSerializer(serializers.ModelSerializer):
         return obj.following.count()
 
     def get_following(self, obj):
+        user = self.context.get('request').user
+
+        if user.is_anonymous:
+            return False
+
         return UserFollow.objects.filter(from_user=self.context.get('request').user, to_user=obj).exists()
 
     class Meta:
@@ -68,7 +73,12 @@ class BaseShitSerializer(serializers.ModelSerializer):
         return obj.user == self.context.get('request').user
 
     def get_is_favourite(self, obj):
-        return Favourite.objects.filter(shit=obj, user=self.context.get('request').user).exists()
+        user = self.context.get('request').user
+
+        if user.is_anonymous:
+            return False
+
+        return Favourite.objects.filter(shit=obj, user=user).exists()
 
     class Meta:
         model = Shit

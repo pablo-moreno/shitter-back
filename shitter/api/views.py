@@ -2,21 +2,24 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.filters import OrderingFilter
 from rest_framework.generics import (
-    ListAPIView, RetrieveAPIView, ListCreateAPIView, RetrieveDestroyAPIView,
+    ListAPIView, ListCreateAPIView, RetrieveAPIView, RetrieveDestroyAPIView,
     CreateAPIView, DestroyAPIView
 )
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from django_filters import rest_framework as filters
 from rest_framework.response import Response
 
 from ..models import *
 from ..permissions import IsShitOwner
-from ..serializers import ShitSerializer, CreateShitSerializer, UserSerializer, UserFollowSerializer
+from ..serializers import (
+    ShitSerializer, CreateShitSerializer, UserSerializer, UserFollowSerializer
+)
 from .filters import UserShitFilter, UserFollowingFilter
 
 
 class ShitPublicTimelineView(ListAPIView):
     serializer_class = ShitSerializer
+    permission_classes = (AllowAny, )
     filter_backends = (filters.DjangoFilterBackend, OrderingFilter, UserShitFilter)
 
     def get_queryset(self):
