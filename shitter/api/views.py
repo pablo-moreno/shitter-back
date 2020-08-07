@@ -12,7 +12,8 @@ from rest_framework.response import Response
 from ..models import *
 from ..permissions import IsShitOwner
 from ..serializers import (
-    ShitSerializer, CreateShitSerializer, UserSerializer, UserFollowSerializer
+    ShitSerializer, CreateShitSerializer, UserSerializer, UserFollowSerializer,
+    FavouriteSerializer,
 )
 from .filters import UserShitFilter, UserFollowingFilter
 
@@ -96,13 +97,9 @@ class CreateDestroyFavorite(CreateAPIView, DestroyAPIView):
     def create(self, request, *args, **kwargs):
         uuid = kwargs.get('uuid')
         shit = get_object_or_404(Shit.objects.all(), uuid=uuid)
-        favourite, created = Favourite.objects.get_or_create(
-            defaults={
-                'shit': shit,
-                'user': request.user,
-            }
-        )
-        return Response(status=status.HTTP_201_CREATED)
+        favourite = Favourite.objects.create(shit=shit, user=request.user)
+
+        return Response(status=status.HTTP_201_CREATED, data=FavouriteSerializer(favourite).data)
 
     def destroy(self, request, *args, **kwargs):
         uuid = kwargs.get('uuid')

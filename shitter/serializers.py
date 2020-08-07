@@ -118,3 +118,9 @@ class UserFollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserFollow
         fields = ('id', 'from_user', 'to_user')
+
+
+class FavouriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Favourite
+        fields = ('user', 'shit', 'date')

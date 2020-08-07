@@ -19,7 +19,7 @@ class UserFollowsTestCase(APITestCase, AuthTestCaseMixin):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_list_following_users(self):
-        response = self.client.get(reverse('shitter:api:user_list_view'), data={'following': True})
+        response = self.client.get(reverse('shitter:api:user_list_view'), data={'following': self.username})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         following_count = self.user.following.count()
         self.assertEqual(response.json().get('count'), following_count)
