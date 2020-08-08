@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  frontend:
+    image: registry.gitlab.com/pablo-moreno/shitter-front:0.1.0-rc1
+    ports:
+      - "8282:80"
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: ${SHITTER_DB_USER}
+      POSTGRES_PASSWORD: ${SHITTER_DB_PASSWORD}
+      POSTGRES_DB: shitter_backend
+    volumes:
+      - /var/www/shitter_backend/db:/var/lib/postgresql/data
+
+  redis:
+    image: redis
+
+  django:
+    image: registry.gitlab.com/pablo-moreno/shitter-back:1.0.0
+    ports:
+      - "8000:8000"
+    working_dir: /app
+    environment:
+      DATABASE_URL: postgres://${SHITTER_DB_USER}:${SHITTER_DB_PASSWORD}@postgres:5432/shitter_backend
+      DEBUG: "FALSE"
+    entrypoint: ["./runserver.sh"]
+    volumes:
+      - /var/www/shitter/media:/app/media
+      - /var/www/shitter/static:/app/static
+    links:
+      - postgres
+      - redis
