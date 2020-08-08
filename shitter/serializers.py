@@ -28,15 +28,22 @@ class UserSerializer(serializers.ModelSerializer):
         user = self.context.get('request').user
 
         if user.is_anonymous:
-            return False
+            return {
+                'im_following': False,
+                'follows_me': False,
+            }
 
-        return UserFollow.objects.filter(from_user=self.context.get('request').user, to_user=obj).exists()
+        return {
+            'im_following': UserFollow.objects.filter(from_user=self.context.get('request').user, to_user=obj).exists(),
+            'follows_me': UserFollow.objects.filter(to_user=self.context.get('request').user, from_user=obj).exists()
+        }
 
     class Meta:
         model = User
         fields = (
             'id', 'username', 'first_name', 'profile',
-            'total_shits', 'followers_count', 'following_count', 'following'
+            'total_shits', 'followers_count', 'following_count',
+            'following',
         )
 
 
