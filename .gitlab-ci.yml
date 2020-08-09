@@ -101,10 +101,12 @@ build_tag_image:
     - docker push $CI_REGISTRY_IMAGE:latest
     - touch /tmp/success
 
-deploy_image:
+deploy_prod:
   image: registry.gitlab.com/pablo-moreno/builder
   stage: deploy
   extends: .slack
+  environment:
+    - prod
   only:
     - tags
   when: manual
