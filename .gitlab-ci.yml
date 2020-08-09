@@ -115,3 +115,4 @@ deploy_image:
 
   script:
     - wget --post-data "" $CD_WEBHOOK
+    - touch /tmp/success
