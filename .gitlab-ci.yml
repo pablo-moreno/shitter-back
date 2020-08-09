@@ -7,6 +7,8 @@ include:
   - template: Code-Quality.gitlab-ci.yml
 
 code_quality:
+  only:
+    - merge_requests
   artifacts:
     reports:
       codequality: gl-code-quality-report.json
@@ -106,7 +108,7 @@ deploy_prod:
   stage: deploy
   extends: .slack
   environment:
-    - prod
+    name: prod
   only:
     - tags
   when: manual
