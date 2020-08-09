@@ -7,8 +7,6 @@ include:
   - template: Code-Quality.gitlab-ci.yml
 
 code_quality:
-  only:
-    - merge_requests
   artifacts:
     reports:
       codequality: gl-code-quality-report.json
@@ -59,6 +57,8 @@ build_branch_image:
   extends: .slack
   services:
     - docker:19.03.1-dind
+  needs:
+    - run_tests
   only:
     - develop
     - master
@@ -82,6 +82,8 @@ build_tag_image:
   image: registry.gitlab.com/pablo-moreno/builder
   stage: build
   extends: .slack
+  needs:
+    - run_tests
   services:
     - docker:19.03.1-dind
   only:
@@ -109,6 +111,8 @@ deploy_prod:
   extends: .slack
   environment:
     name: prod
+  needs:
+    - build_tag_image
   only:
     - tags
   when: manual
