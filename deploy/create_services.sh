@@ -1,11 +1,14 @@
 #!/bin/bash
 
+# Create private network
 docker network create -d overlay shitter
 
+# Create volumes mapped to the specified directories
 docker volume create shitter_db -d local-persist -o mountpoint=/var/www/shitter/db
 docker volume create shitter_static -d local-persist -o mountpoint=/var/www/shitter/static
 docker volume create shitter_media -d local-persist -o mountpoint=/var/www/shitter/media
 
+# POSTGRES service
 docker service create \
   --name shitter_postgres \
   --replicas 1 \
@@ -17,6 +20,7 @@ docker service create \
   postgres:latest
 
 
+# REDIS service
 docker service create \
   --name shitter_redis \
   --replicas 1 \
@@ -25,6 +29,7 @@ docker service create \
   redis:latest
 
 
+# BACKEND service
 docker service create \
   --name shitter_backend \
   --replicas 3 \
@@ -35,12 +40,13 @@ docker service create \
   --mount src=shitter_static,dst=/app/static \
   --entrypoint "./runserver.sh" \
   --with-registry-auth \
-  registry.gitlab.com/pablo-moreno/shitter-back:1.0.0
+  registry.gitlab.com/pablo-moreno/shitter-back:latest
 
 
+# FRONTEND service
 docker service create \
   --name shitter_frontend \
   --replicas 3 \
   --publish "8282:80" \
   --with-registry-auth \
-  registry.gitlab.com/pablo-moreno/shitter-front:0.1.0-rc1
+  registry.gitlab.com/pablo-moreno/shitter-front:latest

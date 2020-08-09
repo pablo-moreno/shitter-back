@@ -17,6 +17,7 @@ class Command(BaseCommand):
                 random_user = User.objects.all()[random_user_index]
                 try:
                     if random_user != user:
-                       UserFollow.objects.create(from_user=user, to_user=random_user)
+                        UserFollow.objects.create(from_user=user, to_user=random_user)
+                        print(f'@{user.username} is now following @{random_user.username}')
                 except Exception:
                     pass

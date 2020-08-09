@@ -1,6 +1,7 @@
 stages:
   - test
   - build
+  - deploy
 
 include:
   - template: Code-Quality.gitlab-ci.yml
@@ -99,3 +100,18 @@ build_tag_image:
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
     - docker push $CI_REGISTRY_IMAGE:latest
     - touch /tmp/success
+
+deploy_image:
+  image: registry.gitlab.com/pablo-moreno/builder
+  stage: deploy
+  extends: .slack
+  only:
+    - tags
+  when: manual
+  variables:
+    INIT_MESSAGE: ":rocket: deploying $CI_REGISTRY_IMAGE to production"
+    ERROR_MESSAGE: ":x: Oops. Something went wrong :violin:"
+    SUCCESS_MESSAGE: ":tada: We're in production!"
+
+  script:
+    - wget --post-data "" $CD_WEBHOOK
