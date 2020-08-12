@@ -142,6 +142,8 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': PAGE_SIZE,
 }
 
+import django.db.models.sql.constants
+
 JWT_AUTH = {
     'JWT_SECRET_KEY': SECRET_KEY,
     'JWT_VERIFY': True,

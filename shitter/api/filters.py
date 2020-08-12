@@ -18,7 +18,7 @@ class UserShitFilter(BaseFilterBackend):
 
 class UserFollowingFilter(BaseFilterBackend):
     """
-        Filters the users to the ones that the request user is following.
+        Filters the users to the ones that the requesting user is following.
     """
     def filter_queryset(self, request, queryset, view):
         if 'following' in request.query_params:
@@ -31,7 +31,7 @@ class UserFollowingFilter(BaseFilterBackend):
 
 class UserFollowersFilter(BaseFilterBackend):
     """
-        Filters the users to the ones that the request user is following.
+        Filters the users to show only the followers that of the requesting user.
     """
     def filter_queryset(self, request, queryset, view):
         if 'followers' in request.query_params:
