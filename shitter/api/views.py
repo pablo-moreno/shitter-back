@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.filters import OrderingFilter
@@ -15,7 +16,7 @@ from ..serializers import (
     ShitSerializer, CreateShitSerializer, UserSerializer, UserFollowSerializer,
     FavouriteSerializer,
 )
-from .filters import UserShitFilter, UserFollowingFilter
+from .filters import UserShitFilter, UserFollowingFilter, UserFollowersFilter
 
 
 class ShitPublicTimelineView(ListAPIView):
@@ -61,7 +62,7 @@ class RetrieveDestroyShitView(RetrieveDestroyAPIView):
 
 class UserListView(ListAPIView):
     serializer_class = UserSerializer
-    filter_backends = (filters.DjangoFilterBackend, UserFollowingFilter)
+    filter_backends = (filters.DjangoFilterBackend, UserFollowingFilter, UserFollowersFilter, )
 
     def get_queryset(self):
         return User.objects.exclude(pk=self.request.user.pk)
@@ -73,19 +74,28 @@ class UserDetailView(RetrieveAPIView):
     lookup_field = 'username'
 
 
-class CreateUserFollow(CreateAPIView):
+class CreateDestroyUserFollow(CreateAPIView, DestroyAPIView):
     serializer_class = UserFollowSerializer
 
-    def get_queryset(self):
-        return UserFollow.objects.filter(from_user=self.request.user)
+    def create(self, request, *args, **kwargs):
+        to_username = kwargs.get('username')
+        to_user = User.objects.get(username=to_username)
+        try:
+            follow = UserFollow.objects.create(
+                from_user=request.user,
+                to_user=to_user
+            )
+            data = self.serializer_class(follow).data
 
+            return Response(data=data, status=status.HTTP_201_CREATED)
+        except IntegrityError as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
-class DestroyUserFollow(DestroyAPIView):
     def destroy(self, request, *args, **kwargs):
-        from_user, to_user = kwargs.get('from_user'), kwargs.get('to_user')
+        to_user = kwargs.get('username')
         follow = get_object_or_404(
             UserFollow.objects.all(),
-            from_user__username=from_user,
+            from_user__username=request.user,
             to_user__username=to_user
         )
         self.perform_destroy(follow)
