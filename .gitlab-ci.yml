@@ -115,7 +115,6 @@ deploy_prod:
     - build_tag_image
   only:
     - tags
-  when: manual
   variables:
     INIT_MESSAGE: ":rocket: deploying $CI_REGISTRY_IMAGE to production"
     ERROR_MESSAGE: ":x: Oops. Something went wrong :violin:"
