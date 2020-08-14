@@ -50,13 +50,33 @@ docker run -d \
     -p 8000:8000 \
     -v /var/www/shitter_backend/static:/app/static \
     -v /var/www/shitter_backend/media:/app/media \
-    -e <environment variable name>=<value> \
     -e DEBUG=FALSE \
+    -e <environment variable name>=<value> \
+    --entrypoint "./runserver.sh" \
     shitter_backend:<version>
 ```
 
 You must setup as much environment variables as you need.
 
+
+## :zap: Deploy in Docker Swarm
+
+To deploy in the Docker Swarm all you need to do is to run 
+
+```sh 
+sh /deploy/create_services.sh
+```
+
+This script creates all the infrastructure you need and expose the port 8000 for nginx to proxy pass.
+
+Then, once you have checked that the project is running as expected, you can configure your nginx.
+
+```sh
+sudo sh /deploy/setup_nginx.conf
+```
+
+This script will copy all the nginx configuration required, restart your nginx server 
+and ask you to update or create your Lets Encrypt certificates.
 
 ## :gear: Gitlab CI/CD
 
