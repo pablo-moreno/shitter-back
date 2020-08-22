@@ -34,6 +34,7 @@ docker service create \
   --name shitter_backend \
   --replicas 3 \
   --env "DATABASE_URL=postgres://$SHITTER_DB_USER:$SHITTER_DB_PASSWORD@shitter_postgres:5432/shitter_backend" \
+  --env "SECRET_KEY=${SHITTER_SECRET_KEY}" \
   --publish "8000:8000" \
   --network shitter \
   --mount src=shitter_media,dst=/app/media \
