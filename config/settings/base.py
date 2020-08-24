@@ -1,6 +1,9 @@
 import datetime
 from .environ import *
 import dj_database_url
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 
 # Build paths inside the config like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -169,3 +172,11 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+if not DEBUG:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=1.0,
+        send_default_pii=True
+    )
