@@ -22,9 +22,9 @@ variables:
 
 .slack:
     before_script:
-     - sh /slack_message "$INIT_MESSAGE" $SLACK_WEBHOOK_URL
+      - wget -S -qO- --header='Content-Type: application/json' --post-data "{\"text\":\"$INIT_MESSAGE\"}" $SLACK_WEBHOOK_URL
     after_script:
-     - cat /tmp/success && sh /slack_message "$SUCCESS_MESSAGE" $SLACK_WEBHOOK_URL || sh /slack_message "$ERROR_MESSAGE" $SLACK_WEBHOOK_URL
+      - cat /tmp/success && wget -S -qO- --header='Content-Type: application/json' --post-data "{\"text\":\"$SUCCESS_MESSAGE\"}" $SLACK_WEBHOOK_URL || wget -S -qO- --header='Content-Type: application/json' --post-data "{\"text\":\"$ERROR_MESSAGE\"}" $SLACK_WEBHOOK_URL $SLACK_WEBHOOK_URL
 
 run_tests:
   image: $CI_PROJECT_BASE_IMAGE
