@@ -35,7 +35,7 @@ iniconfig==1.0.1
 ipython==7.18.1
 ipython-genutils==0.2.0
 jedi==0.17.2
-kombu==4.6.11
+kombu==5.0.2
 more-itertools==8.4.0
 packaging==20.4
 parso==0.7.1
