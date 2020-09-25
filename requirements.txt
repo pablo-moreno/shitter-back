@@ -69,7 +69,7 @@ six==1.15.0
 spook==0.1.0
 sqlparse==0.3.1
 toml==0.10.1
-traitlets==4.3.3
+traitlets==5.0.4
 Twisted==20.3.0
 txaio==20.4.1
 urllib3==1.25.10
