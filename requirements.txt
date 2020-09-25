@@ -66,7 +66,7 @@ requests==2.24.0
 sentry-sdk==0.17.8
 service-identity==18.1.0
 six==1.15.0
-spook==0.1.0rc0
+spook==0.1.0
 sqlparse==0.3.1
 toml==0.10.1
 traitlets==4.3.3
