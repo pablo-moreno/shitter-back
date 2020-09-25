@@ -55,7 +55,7 @@ PyHamcrest==2.0.2
 PyJWT==1.7.1
 pyOpenSSL==19.1.0
 pyparsing==2.4.7
-pytest==6.0.1
+pytest==6.0.2
 pytest-cov==2.10.0
 pytest-django==3.9.0
 python-crontab==2.5.1
